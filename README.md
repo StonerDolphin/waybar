@@ -1,0 +1,2 @@
+# waybar
+My waybar configuration 
