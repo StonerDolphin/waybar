@@ -1,0 +1,172 @@
+{
+    "layer": "top", // Waybar at top layer
+    "position": "top", // Waybar position (top|bottom|left|right)
+    "height": 5,
+    "width":1935,
+    "margin": "0 0 0 0",
+    "spacing":0,
+
+    // , "wlr/taskbar"
+    // Choose the order of the modules idle_inhibitor
+
+    "modules-left": ["hyprland/window"],
+    "modules-center": ["hyprland/workspaces"],
+    "modules-right": ["custom/pacman","cpu", "battery", "network", "pulseaudio","tray", "clock","custom/power"],
+
+ // Modules configuration
+
+  "wlr/workspaces": {
+    "format": "{icon}",
+    "on-click": "activate",
+    "all-outputs": true,
+    "sort-by-number": true,
+    "format-icons": {
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9",
+      "10": "10",
+      "focused": "",
+      "default": ""
+    },
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1"
+    },
+    "hyprland/window": {
+        "format": "{}",
+	"icon":true,
+	"icon-size" : 20
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+       "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        }
+    },
+    "tray": {
+        "icon-size": 20,
+        "spacing": 5
+    },
+    "clock": {
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        //"format": " {:%a %d %b  %I:%M %p}",	//12 hour format
+        "format": " {:%H:%M}",	//24 hour format
+        //"format-alt": " {:%d/%m/%Y  %H:%M:%S}",
+        //"timezones": [ "Kolkata" ],
+        //"max-length": 200
+        "interval": 1,
+        "calendar": {
+            "mode": "months",
+            "mode-mon-col": 2,
+            // "weeks-pos": "right",
+            "on-scroll": 1,
+            "on-click-right": "mode",
+            "format": {
+                "months":     "<span color='#ffead3'><b>{}</b></span>",
+                "days":       "<span color='#ecc6d9'><b>{}</b></span>",
+                "weeks":      "<span color='#99ffdd'><b>{}</b></span>",
+                "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
+                "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+            }
+        },
+        "actions": {
+            "on-click-right": "mode",
+            "on-click-forward": "tz_up",
+            "on-click-backward": "tz_down",
+            "on-scroll-up": "shift_up",
+            "on-scroll-down": "shift_down"
+        }
+    },
+    "cpu": {
+        "format": "🖳{usage}%",
+        "on-click": "alacritty -e htop"
+    },
+    "memory": {
+        "format": "🖴 {: >3}%",
+        "on-click": "alacritty -e htop"
+    },
+    "temperature": {
+        // "thermal-zone": 2,
+        // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "critical-threshold": 80,
+        // "format-critical": "{temperatureC}°C ",
+        "format": "{temperatureC}°C "
+    },
+    "backlight": {
+        // "device": "acpi_video1",
+        "format": "{icon} {percent: >3}%",
+        "format-icons": ["", ""],
+        "on-scroll-down": "brightnessctl -c backlight set 1%-",
+        "on-scroll-up": "brightnessctl -c backlight set +1%"
+    },
+    "battery": {
+        "states": {
+            // "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity: >3}%",
+        // "format-good": "", // An empty format will hide the module
+        // "format-full": "",
+        "format-icons": ["", "", "", "", ""]
+        //"format-icons": ["", "", "", "", "", "", "", "", "", ""]
+    },
+    "network": {
+        "tooltip-format": " {essid}",
+        "format": "{ifname}",
+        "format-wifi": "",
+        "format-ethernet": "{ipaddr}/{cidr} 󰊗",
+        "format-disconnected": "", //An empty format will hide the module.
+        
+    },
+    "pulseaudio": {
+        "scroll-step": 5,
+        "format": "{icon} {volume: >3}%",
+        "format-bluetooth": "{icon} {volume: >3}%",
+        "format-muted":" muted",
+        "format-icons": {
+            "headphones": "",
+            "handsfree": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", ""]
+        },
+        "on-click": "pavucontrol"
+    },
+     "custom/pacman": {
+        "format": " {}",
+        "interval": 7200,                     // every two hours
+        "exec": "i=$(checkupdates); echo \"$i\" |wc -l; echo \"$i\" |column -t |tr '\n' '\r'",       // # of updates and tooltip details
+        "exec-if": "exit 0",                  // always run; consider advanced run conditions
+        "on-click": "alacritty -e update", // update system
+        "signal": 8
+    },
+    "custom/power": {
+      	"format":"⏻",
+       	"on-click": "nwgbar",
+      	"tooltip": false,
+   },
+   "custom/keyboard-layout": {
+      	"format": " Cheat", // Icon: keyboard
+        "on-click": "~/.config/waybar/scripts/keyhint.sh",
+     },
+     "custom/launcher": {
+    	"format":" ",
+    	"on-click": "exec nwg-drawer -c 7 -is 70 -spacing 23",
+    	"tooltip": false,
+     },
+     "custom/network_traffic": {
+             "exec": "~/.config/waybar/scripts/network_traffic.sh",
+             "return-type": "json",
+             "format-ethernet": "{icon} {ifname} ⇣{bandwidthDownBytes} ⇡{bandwidthUpBytes}",    // optional
+},
+
+}
