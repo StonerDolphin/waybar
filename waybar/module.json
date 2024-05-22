@@ -1,0 +1,124 @@
+{
+    "hyprland/workspaces": {
+        "format": "{}",
+        "on-click": "activate",
+        "all-outputs": false,
+        "format-icons": {
+            "urgent": "",
+            "default": "",
+            "active": ""
+        },
+        "persistent-workspaces": {
+            "*": 5
+       }
+    },
+
+    "hyprland/window": {
+        "rewrite": {
+            "(.*) - Brave": "$1"
+        },
+        "separate-outputs": true
+
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        }
+    },
+    "tray": {
+        "icon-size": 20,
+        "spacing": 5
+    },
+    
+    "clock": {
+        "format": "{:%H:%M %a}",
+        "format-alt": "{:%Y-%m-%d}"
+    },
+
+    "cpu": {
+        "format": "   {usage}%",
+        "on-click": "alacritty -e htop"
+    },
+    "memory": {
+        "format": "🖴 {: >3}%",
+        "on-click": "alacritty -e htop"
+    },
+    "temperature": {
+        "critical-threshold": 80,
+        "format": "{temperatureC}°C "
+    },
+    "backlight": {
+        "format": "{icon} {percent: >3}%",
+        "format-icons": ["", ""],
+        "on-scroll-down": "brightnessctl -c backlight set 1%-",
+        "on-scroll-up": "brightnessctl -c backlight set +1%"
+    },
+    
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity: >3}%",
+        "format-icons": ["", "", "", "", ""]
+    },
+
+    "network": {
+        "format": "{ifname}",
+        "format-wifi": "   {signalStrength}%",
+        "format-ethernet": "  {ipaddr}",
+        "format-disconnected": "Not connected", 
+        "tooltip-format": " {ifname} via {gwaddri}",
+        "tooltip-format-wifi": "   {essid} ({signalStrength}%)",
+        "tooltip-format-ethernet": "  {ifname} ({ipaddr}/{cidr})",
+        "tooltip-format-disconnected": "Disconnected",
+        "max-length": 50,
+        "on-click": "alacritty -e nmtui"
+    },
+
+    "pulseaudio": {
+        "scroll-step": 5,
+        "format": "{icon} {volume: >3}%",
+        "format-bluetooth": "{icon} {volume: >3}%",
+        "format-muted": " muted",
+        "format-icons": {
+            "headphones": "",
+            "handsfree": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", ""]
+        },
+        "on-click": "pavucontrol"
+    },
+    "custom/pacman": {
+        "format": "󰏔  {}",
+        "interval": 7200,
+        "exec": "~/.config/waybar/scripts/check_updates.sh",
+        "exec-if": "exit 0",
+        "on-click": "alacritty -e update",
+        "signal": 8
+    },
+    "custom/power": {
+        "format": "⏻",
+        "on-click": "nwgbar",
+        "tooltip": false
+    },
+    "custom/keyboard-layout": {
+        "format": " Cheat",
+        "on-click": "~/.config/waybar/scripts/keyhint.sh"
+    },
+    "custom/launcher": {
+        "format": " ",
+        "on-click": "exec nwg-drawer -c 7 -is 70 -spacing 23",
+        "tooltip": false
+    },
+    "custom/network_traffic": {
+        "exec": "~/.config/waybar/scripts/network_traffic.sh",
+        "return-type": "json",
+        "format-ethernet": "{icon} {ifname} ⇣{bandwidthDownBytes} ⇡{bandwidthUpBytes}"
+    }
+}
